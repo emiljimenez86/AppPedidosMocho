@@ -1,0 +1,24 @@
+
+body {
+    background-color: #f8f9fa;
+    font-family: 'Arial', sans-serif;
+}
+
+h2 {
+    color: #ff3149;
+}
+
+h3 {
+    color: #ff914d;
+}
+
+button {
+    margin-top: 10px;
+    margin-right: 10px;
+}
+
+.list-group-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
