@@ -3,25 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Web App de Pedidos</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>App de Pedidos</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-    <style>
-        .form-check-input:checked {
-            background-color: #198754;
-            border-color: #198754;
-        }
-        @media (max-width: 768px) {
-            .btn-group {
-                display: flex;
-                flex-wrap: wrap;
-                gap: 5px;
-            }
-            .btn-group .btn {
-                margin-bottom: 5px;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container mt-4">
@@ -34,28 +18,59 @@
                     <option value="Mesa 1">Mesa 1</option>
                     <option value="Mesa 2">Mesa 2</option>
                     <option value="Mesa 3">Mesa 3</option>
+                    <option value="Mesa 3">Mesa 4</option>
+                    <option value="Mesa 3">Mesa 5</option>
                 </select>
             </div>
             
             <div class="col-md-6 mb-3">
                 <label for="producto" class="form-label">Seleccionar Producto:</label>
                 <select id="producto" class="form-select">
-                    <option value="Hamburguesa">Hamburguesa</option>
-                    <option value="Pizza">Pizza</option>
-                    <option value="Hot Dog">Hot Dog</option>
+                    <option value="">Seleccione un producto...</option>
+                    <option value="Hamburguesa">Picada de 25</option>
+                    <option value="Pizza">Picada de 30</option>
+                    <option value="Hot Dog">Picada de 40</option>
+                    <option value="Ensalada">Picada de 50</option>
+                    <option value="Bebida">Perro Ranchero</option>
+                    <option value="Postre">Perro Picada</option>
+                    <option value="Postre">Hamburguesa Sencilla</option>
+                    <option value="Postre">Hamburguesa Doble</option>
+                    <option value="Postre">Hamburguesa Ranchera</option>
+                    <option value="Postre">Salchipapa Ranchera</option>
+                    <option value="Postre">Chuzo de Pollo</option>
+                    <option value="Postre">Carne a la Plancha</option>
+                    <option value="Postre">Coca cola 1.5L</option>
+                    <option value="Postre">Hit Tropical</option>
+                    <option value="Postre">Hit de mango</option>
+                    <option value="Postre">Hit de mora</option>
+                    <option value="Postre">Hit de piña naranja</option>
+                    <option value="Postre">Colombiana Personal</option>
+                    <option value="Postre">Naranjada Postobón</option>
+                    <option value="Postre">Uva Postobón</option>
+                    <option value="Postre">Manzana Postobón</option>
+                    <option value="Postre">Pepsi Personal</option>
+                    <option value="Postre">Agua Brisa Personal</option>
+                    <option value="Postre">Cola Roman Personal</option>
+                    <option value="Postre">Coca cola Personal</option>
+                    <option value="Postre">Pilsen en lata</option>
+                    <option value="Postre">Aguila Negra en lata</option>
+                    
+                    
+                    
                 </select>
+                <div id="productosSeleccionados" class="mt-2"></div>
+                <button class="btn btn-success btn-sm" onclick="agregarProducto()">Agregar Producto</button>
             </div>
         </div>
         
         <div class="text-center mb-4">
-            <button class="btn btn-primary btn-lg" onclick="agregarPedido()">Agregar Pedido</button>
+            <button class="btn btn-primary btn-lg" onclick="agregarPedido()">Guardar Pedido</button>
         </div>
         
         <h3 class="mb-3">Pedidos Actuales</h3>
         <ul id="listaPedidos" class="list-group"></ul>
     </div>
     
-    <script src="sheets.js"></script>
     <script src="script.js"></script>
 </body>
 </html>

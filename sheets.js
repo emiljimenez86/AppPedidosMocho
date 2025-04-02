@@ -3,6 +3,11 @@ function imprimirPedido(pedido) {
     const ventanaImpresion = window.open('', '_blank');
     const fecha = new Date().toLocaleString('es-ES');
     
+    // Crear lista de productos
+    const productosHTML = pedido.productos.map(producto => 
+        `<li>${producto}</li>`
+    ).join('');
+    
     const contenido = `
         <html>
         <head>
@@ -13,6 +18,9 @@ function imprimirPedido(pedido) {
                 .pedido { border: 1px solid #000; padding: 10px; margin: 10px 0; }
                 .footer { margin-top: 20px; text-align: center; }
                 .hora { font-size: 0.9em; color: #666; }
+                .productos { list-style-type: none; padding-left: 0; }
+                .productos li { padding: 5px 0; border-bottom: 1px solid #eee; }
+                .productos li:last-child { border-bottom: none; }
             </style>
         </head>
         <body>
@@ -23,7 +31,10 @@ function imprimirPedido(pedido) {
             </div>
             <div class="pedido">
                 <p><strong>Mesa:</strong> ${pedido.mesa}</p>
-                <p><strong>Producto:</strong> ${pedido.producto}</p>
+                <p><strong>Productos:</strong></p>
+                <ul class="productos">
+                    ${productosHTML}
+                </ul>
                 <p><strong>Estado:</strong> ${pedido.estado}</p>
             </div>
             <div class="footer">
