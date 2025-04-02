@@ -502,11 +502,4 @@ if (isIOS()) {
     });
 }
 
-function checkInstallationStatus() {
-    setTimeout(() => {
-        if (isAppInstalled()) {
-            installBtn.style.display = "none";
-            iosInstructions.style.display = "none";
-        }
-    }, 500); // Se retrasa medio segundo para no interferir con la carga del icono
-}
+
