@@ -7,7 +7,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="PedidosApp"> 
-    
+   
     <title>PedidosApp</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="styles.css">
@@ -18,16 +18,19 @@
     <link rel="manifest" href="manifest.json">
 </head>
 <body>
-    <button id="installBtn" class="btn btn-success" style="display: none;">Instalar App</button>
+    <div class="fixed-top d-flex justify-content-end p-3">
+        <button id="installBtn" class="btn btn-success me-2" style="display: none;">Instalar App</button>
+    </div>
 
-        <div id="ios-instructions" style="display: none; text-align: center; background: #ffeb3b; padding: 10px; border-radius: 5px;">
-          📱 Para instalar esta app en iPhone:<br>
-          1️⃣ Toca <strong>Compartir</strong> (📤).<br>
-          2️⃣ Selecciona <strong>"Agregar a inicio"</strong>.
-          3️⃣ Listo <strong>"Así de fácil te llevas nustro Menú"</strong>.
-        </div>
-        
-    <div class="container mt-4">
+    <div id="ios-instructions" style="display: none; text-align: center; background: #ffeb3b; padding: 10px; border-radius: 5px;">
+      📱 Para instalar esta app en iPhone:<br>
+      1️⃣ Toca <strong>Compartir</strong> (📤).<br>
+      2️⃣ Selecciona <strong>"Agregar a inicio"</strong>.<br>
+      3️⃣ Listo <strong>"Así de fácil te llevas nuestro Menú"</strong>.
+    </div>
+    
+    <div class="container mt-4 pt-5">
+        <button class="btn btn-danger btn-sm mb-3" onclick="realizarCierreVentas()">Cierre de Ventas</button>
         <h2 class="text-center mb-4">Tomar Pedido</h2>
         
         <div class="row">
@@ -40,6 +43,7 @@
                     <option value="Mesa 4">Mesa 4</option>
                     <option value="Mesa 5">Mesa 5</option>
                     <option value="DOMICILIO">DOMICILIO</option>
+                    
                 </select>
             </div>
             
@@ -47,40 +51,38 @@
                 <label for="producto" class="form-label">Seleccionar Producto:</label>
                 <select id="producto" class="form-select">
                     <option value="">Seleccione un producto...</option>
-                    <option value="Picada de 25">Picada de 25</option>
-                    <option value="Picada de 30">Picada de 30</option>
-                    <option value="Picada de 40">Picada de 40</option>
-                    <option value="Picada de 50">Picada de 50</option>
-                    <option value="Perro Ranchero">Perro Ranchero</option>
-                    <option value="Perro Picada">Perro Picada</option>
-                    <option value="Hamburguesa Sencilla">Hamburguesa Sencilla</option>
-                    <option value="Hamburguesa Doble">Hamburguesa Doble</option>
-                    <option value="Hamburguesa Ranchera">Hamburguesa Ranchera</option>
-                    <option value="Salchipapa Ranchera">Salchipapa Ranchera</option>
-                    <option value="Chuzo de Pollo">Chuzo de Pollo</option>
-                    <option value="Carne a la Plancha">Carne a la Plancha</option>
-                    <option value="Coca cola 1.5L">Coca cola 1.5L</option>
-                    <option value="Hit Tropical">Hit Tropical</option>
-                    <option value="Hit de mango">Hit de mango</option>
-                    <option value="Hit de mora">Hit de mora</option>
-                    <option value="Hit de piña naranja">Hit de piña naranja</option>
-                    <option value="Colombiana Personal">Colombiana Personal</option>
-                    <option value="Naranjada Postobón">Naranjada Postobón</option>
-                    <option value="Uva Postobón">Uva Postobón</option>
-                    <option value="Manzana Postobón">Manzana Postobón</option>
-                    <option value="Pepsi Personal">Pepsi Personal</option>
-                    <option value="Agua Brisa Personal">Agua Brisa Personal</option>
-                    <option value="Cola Roman Personal">Cola Roman Personal</option>
-                    <option value="Coca cola Personal">Coca cola Personal</option>
-                    <option value="Pilsen en lata">Pilsen en lata</option>
-                    <option value="Aguila Negra en lata">Aguila Negra en lata</option>
-                    <option value="DOMICILIO">DOMICILIO</option>
-                    
-                    
-                    
+                    <option value="Picada de 25" data-precio="25000">Picada - $25,000</option>
+                    <option value="Picada de 30" data-precio="30000">Picada - $30,000</option>
+                    <option value="Picada de 40" data-precio="40000">Picada - $40,000</option>
+                    <option value="Picada de 50" data-precio="50000">Picada - $50,000</option>
+                    <option value="Perro Ranchero" data-precio="12000">Perro Ranchero - $18,000</option>
+                    <option value="Perro Picada" data-precio="13000">Perro Picada - $20,000</option>
+                    <option value="Hamburguesa Sencilla" data-precio="10000">Hamburguesa Sencilla - $18,000</option>
+                    <option value="Hamburguesa Doble" data-precio="15000">Hamburguesa Doble - $22,000</option>
+                    <option value="Hamburguesa Ranchera" data-precio="17000">Hamburguesa Ranchera - $18,000</option>
+                    <option value="Salchipapa Ranchera" data-precio="14000">Salchipapa Ranchera - $20,000</option>
+                    <option value="Chuzo de Pollo" data-precio="13000">Chuzo de Pollo - $20,000</option>
+                    <option value="Carne a la Plancha" data-precio="20000">Carne a la Plancha - $20,000</option>
+                    <option value="Coca cola 1.5L" data-precio="6000">Coca cola 1.5L - $8,000</option>
+                    <option value="Hit Tropical" data-precio="4000">Hit Tropical - $5,000</option>
+                    <option value="Hit de mango" data-precio="4000">Hit de mango - $5,000</option>
+                    <option value="Hit de mora" data-precio="4000">Hit de mora - $5,000</option>
+                    <option value="Hit de piña naranja" data-precio="4000">Hit de piña naranja - $5,000</option>
+                    <option value="Colombiana Personal" data-precio="3000">Colombiana Personal - $5,000</option>
+                    <option value="Naranjada Postobón" data-precio="3000">Naranjada Postobón - $5,000</option>
+                    <option value="Uva Postobón" data-precio="3000">Uva Postobón - $5,000</option>
+                    <option value="Manzana Postobón" data-precio="3000">Manzana Postobón - $5,000</option>
+                    <option value="Pepsi Personal" data-precio="3000">Pepsi Personal - $5,000</option>
+                    <option value="Agua Brisa Personal" data-precio="2500">Agua Brisa Personal - $2,000</option>
+                    <option value="Cola Roman Personal" data-precio="2500">Cola Roman Personal - $5,000</option>
+                    <option value="Coca cola Personal" data-precio="3000">Coca cola Personal - $5,000</option>
+                    <option value="Pilsen en lata" data-precio="5000">Pilsen en lata - $5,000</option>
+                    <option value="Aguila Negra en lata" data-precio="5000">Aguila Negra en lata - $5,000</option>
                 </select>
-                <div id="productosSeleccionados" class="mt-2"></div>
-                <button class="btn btn-success btn-sm" onclick="agregarProducto()">Agregar Producto</button>
+                <div class="mt-2">
+                    <button class="btn btn-success btn-sm" onclick="agregarProducto()">Agregar Producto</button>
+                </div>
+                <div id="productosSeleccionados" class="mt-2 p-2 border rounded"></div>
             </div>
         </div>
         
