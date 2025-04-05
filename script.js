@@ -245,6 +245,7 @@ function imprimirPedido(pedido) {
         <html>
         <head>
             <title>Pedido #${pedido.id}</title>
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <style>
                 @page {
                     size: 80mm 297mm;
@@ -292,16 +293,18 @@ function imprimirPedido(pedido) {
                     font-weight: bold;
                     margin-top: 5px;
                 }
+                .botones {
+                    text-align: center;
+                    margin-top: 10px;
+                }
+                .botones button {
+                    margin: 5px;
+                    padding: 8px 15px;
+                    font-size: 14px;
+                    cursor: pointer;
+                }
                 @media print {
-                    body {
-                        padding: 0;
-                        margin: 0;
-                    }
-                    .pedido {
-                        border: none;
-                        padding: 0;
-                    }
-                    .no-print {
+                    .botones {
                         display: none;
                     }
                 }
@@ -331,14 +334,16 @@ function imprimirPedido(pedido) {
             <div class="footer">
                 <p style="margin: 0;">¡Gracias por su pedido!</p>
             </div>
+            <div class="botones">
+                <button onclick="window.print()">Imprimir</button>
+                <button onclick="window.close()">Cerrar</button>
+            </div>
         </body>
         </html>
     `;
     
     ventanaImpresion.document.write(contenido);
     ventanaImpresion.document.close();
-    ventanaImpresion.print();
-    ventanaImpresion.close();
 }
 
 // =============================================
