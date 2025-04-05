@@ -241,6 +241,15 @@ function imprimirPedido(pedido) {
     const ventanaImpresion = window.open('', '_blank');
     const fecha = new Date().toLocaleString('es-ES');
     
+    // Asegurarnos de que los productos tengan los precios actualizados
+    const productosActualizados = pedido.productos.map(producto => ({
+        nombre: producto.nombre,
+        precio: precios[producto.nombre] || producto.precio
+    }));
+    
+    // Recalcular el total con los precios actualizados
+    const totalActualizado = productosActualizados.reduce((sum, p) => sum + p.precio, 0);
+    
     const contenido = `
         <html>
         <head>
@@ -321,13 +330,13 @@ function imprimirPedido(pedido) {
                 <div class="productos">
                     <p><strong>Productos:</strong></p>
                     <ul>
-                        ${pedido.productos.map(producto => `
+                        ${productosActualizados.map(producto => `
                             <li>${producto.nombre} - $${producto.precio.toLocaleString()}</li>
                         `).join('')}
                     </ul>
                 </div>
                 <div class="total">
-                    Total: $${pedido.total.toLocaleString()}
+                    Total: $${totalActualizado.toLocaleString()}
                 </div>
                 <p><strong>Estado:</strong> ${pedido.estado}</p>
             </div>
