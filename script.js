@@ -37,6 +37,22 @@ const precios = {
     "DOMICILIO": 0
 };
 
+// Lista de productos que requieren salsas
+const productosConSalsas = [
+    "Picada de 25",
+    "Picada de 30",
+    "Picada de 40",
+    "Picada de 50",
+    "Perro Ranchero",
+    "Perro Picada",
+    "Hamburguesa Sencilla",
+    "Hamburguesa Doble",
+    "Hamburguesa Ranchera",
+    "Salchipapa Ranchera",
+    "Chuzo de Pollo",
+    "Carne a la Plancha"
+];
+
 // =============================================
 // FUNCIONES DE ALMACENAMIENTO
 // =============================================
@@ -54,22 +70,112 @@ function guardarPedidos(pedidos) {
 // FUNCIONES DE GESTIÓN DE PRODUCTOS
 // =============================================
 
-function agregarProducto() {
-    const selectProducto = document.getElementById("producto");
-    const producto = selectProducto.value;
-    const precio = selectProducto.options[selectProducto.selectedIndex].getAttribute("data-precio");
+function mostrarSalsas() {
+    const producto = document.getElementById('producto').value;
+    const salsasContainer = document.getElementById('salsasContainer');
+    const detallesContainer = document.getElementById('detallesContainer');
     
-    if (!producto) {
-        alert("Por favor, seleccione un producto");
-        return;
+    if (productosConSalsas.includes(producto)) {
+        salsasContainer.style.display = 'block';
+    } else {
+        salsasContainer.style.display = 'none';
     }
     
-    productosSeleccionados.push({
-        nombre: producto,
-        precio: parseInt(precio)
-    });
-    actualizarProductosSeleccionados();
-    selectProducto.value = "";
+    // Mostrar campo de detalles para todos los productos
+    detallesContainer.style.display = 'block';
+}
+
+function obtenerSalsasSeleccionadas() {
+    const salsasContainer = document.getElementById("salsasContainer");
+    const checkboxes = salsasContainer.querySelectorAll('input[type="checkbox"]:checked');
+    return Array.from(checkboxes).map(checkbox => checkbox.value);
+}
+
+function obtenerDetallesEspeciales() {
+    const detallesInput = document.getElementById('detallesProducto');
+    return detallesInput.value.trim();
+}
+
+function agregarProducto() {
+    try {
+        const producto = document.getElementById('producto').value;
+        const cantidad = parseInt(document.getElementById('cantidad').value);
+        const salsas = obtenerSalsasSeleccionadas();
+        const detalles = obtenerDetallesEspeciales();
+        
+        console.log('Producto seleccionado:', producto);
+        console.log('Cantidad:', cantidad);
+        console.log('Salsas:', salsas);
+        console.log('Detalles:', detalles);
+        
+        if (!producto) {
+            alert('Por favor, seleccione un producto');
+            return;
+        }
+        
+        if (isNaN(cantidad) || cantidad <= 0) {
+            alert('Por favor, ingrese una cantidad válida');
+            return;
+        }
+        
+        if (!precios[producto]) {
+            alert('Error: No se encontró el precio para el producto seleccionado');
+            return;
+        }
+        
+        // Agregar el producto a la lista de productos seleccionados
+        const nuevoProducto = {
+            nombre: producto,
+            precio: precios[producto],
+            cantidad: cantidad,
+            salsas: salsas,
+            detalles: detalles
+        };
+        
+        console.log('Nuevo producto a agregar:', nuevoProducto);
+        
+        productosSeleccionados.push(nuevoProducto);
+        
+        const productosSeleccionadosDiv = document.getElementById('productosSeleccionados');
+        if (!productosSeleccionadosDiv) {
+            alert('Error: No se encontró el contenedor de productos seleccionados');
+            return;
+        }
+        
+        const productoInfo = document.createElement('div');
+        productoInfo.className = 'producto-seleccionado mb-2';
+        
+        let detallesHTML = '';
+        if (salsas.length > 0) {
+            detallesHTML += `<br>Salsas: ${salsas.join(', ')}`;
+        }
+        if (detalles) {
+            detallesHTML += `<br>Detalles: ${detalles}`;
+        }
+        
+        productoInfo.innerHTML = `
+            <div class="d-flex justify-content-between align-items-center">
+                <span>${producto} x${cantidad} - $${precios[producto] * cantidad}</span>
+                <button class="btn btn-danger btn-sm" onclick="eliminarProducto(this)">Eliminar</button>
+            </div>
+            ${detallesHTML}
+        `;
+        
+        productosSeleccionadosDiv.appendChild(productoInfo);
+        
+        // Limpiar campos
+        document.getElementById('producto').value = '';
+        document.getElementById('cantidad').value = '1';
+        document.getElementById('salsasContainer').style.display = 'none';
+        document.getElementById('detallesProducto').value = '';
+        
+        console.log('Producto agregado exitosamente');
+        console.log('Productos seleccionados actuales:', productosSeleccionados);
+        
+    } catch (error) {
+        console.error('Error al agregar producto:', error);
+        alert('Ocurrió un error al agregar el producto. Por favor, intente nuevamente.');
+    }
 }
 
 function actualizarProductosSeleccionados() {
@@ -77,14 +183,23 @@ function actualizarProductosSeleccionados() {
     contenedor.innerHTML = productosSeleccionados.map((producto, index) => `
         <span class="producto-seleccionado">
             ${producto.nombre} - $${producto.precio.toLocaleString()}
+            ${producto.salsas && producto.salsas.length > 0 ? 
+                `<br><small>Salsas: ${producto.salsas.join(', ')}</small>` : 
+                ''}
             <button class="btn btn-sm btn-danger ms-2" onclick="eliminarProducto(${index})">×</button>
         </span>
     `).join('');
 }
 
-function eliminarProducto(index) {
+function eliminarProducto(elemento) {
+    const productoInfo = elemento.closest('.producto-seleccionado');
+    const index = Array.from(productoInfo.parentNode.children).indexOf(productoInfo);
+    
+    // Eliminar el producto de la lista
     productosSeleccionados.splice(index, 1);
-    actualizarProductosSeleccionados();
+    
+    // Eliminar el elemento del DOM
+    productoInfo.remove();
 }
 
 // =============================================
@@ -153,7 +268,11 @@ function cargarPedidos() {
         
         const productosHTML = pedido.productos.map(producto => 
             `<span class="producto-seleccionado" style="background-color: #e9ecef; padding: 4px 8px; border-radius: 4px; margin-right: 5px;">
-                ${producto.nombre} - $${producto.precio.toLocaleString()}
+                ${producto.nombre} x${producto.cantidad} - $${(producto.precio * producto.cantidad).toLocaleString()}
+                ${producto.salsas && producto.salsas.length > 0 ? 
+                    `<br><small>Salsas: ${producto.salsas.join(', ')}</small>` : 
+                    ''}
+                ${producto.detalles ? `<br><small>Detalles: ${producto.detalles}</small>` : ''}
             </span>`
         ).join('');
         
@@ -244,7 +363,9 @@ function imprimirPedido(pedido) {
     // Asegurarnos de que los productos tengan los precios actualizados
     const productosActualizados = pedido.productos.map(producto => ({
         nombre: producto.nombre,
-        precio: precios[producto.nombre] || producto.precio
+        precio: precios[producto.nombre] || producto.precio,
+        salsas: producto.salsas || [],
+        detalles: producto.detalles || ''
     }));
     
     // Recalcular el total con los precios actualizados
@@ -297,6 +418,11 @@ function imprimirPedido(pedido) {
                     padding: 2px 0; 
                     border-bottom: 1px dotted #ccc;
                 }
+                .salsas {
+                    font-size: 10px;
+                    color: #666;
+                    margin-left: 10px;
+                }
                 .total {
                     text-align: right;
                     font-weight: bold;
@@ -331,7 +457,13 @@ function imprimirPedido(pedido) {
                     <p><strong>Productos:</strong></p>
                     <ul>
                         ${productosActualizados.map(producto => `
-                            <li>${producto.nombre} - $${producto.precio.toLocaleString()}</li>
+                            <li>
+                                ${producto.nombre} - $${producto.precio.toLocaleString()}
+                                ${producto.salsas.length > 0 ? 
+                                    `<div class="salsas">Salsas: ${producto.salsas.join(', ')}</div>` : 
+                                    ''}
+                                ${producto.detalles ? `<div class="detalles">Detalles: ${producto.detalles}</div>` : ''}
+                            </li>
                         `).join('')}
                     </ul>
                 </div>

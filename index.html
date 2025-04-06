@@ -49,38 +49,69 @@
             
             <div class="col-md-6 mb-3">
                 <label for="producto" class="form-label">Seleccionar Producto:</label>
-                <select id="producto" class="form-select">
+                <select id="producto" class="form-select" onchange="mostrarSalsas()">
                     <option value="">Seleccione un producto...</option>
-                    <option value="Picada de 25" data-precio="25000">Picada - $25,000</option>
-                    <option value="Picada de 30" data-precio="30000">Picada - $30,000</option>
-                    <option value="Picada de 40" data-precio="40000">Picada - $40,000</option>
-                    <option value="Picada de 50" data-precio="50000">Picada - $50,000</option>
-                    <option value="Perro Ranchero" data-precio="12000">Perro Ranchero - $18,000</option>
-                    <option value="Perro Picada" data-precio="13000">Perro Picada - $20,000</option>
-                    <option value="Hamburguesa Sencilla" data-precio="10000">Hamburguesa Sencilla - $18,000</option>
-                    <option value="Hamburguesa Doble" data-precio="15000">Hamburguesa Doble - $22,000</option>
-                    <option value="Hamburguesa Ranchera" data-precio="17000">Hamburguesa Ranchera - $18,000</option>
-                    <option value="Salchipapa Ranchera" data-precio="14000">Salchipapa Ranchera - $20,000</option>
-                    <option value="Chuzo de Pollo" data-precio="13000">Chuzo de Pollo - $20,000</option>
+                    <option value="Picada de 25" data-precio="25000">Picada de 25 - $25,000</option>
+                    <option value="Picada de 30" data-precio="30000">Picada de 30 - $30,000</option>
+                    <option value="Picada de 40" data-precio="40000">Picada de 40 - $40,000</option>
+                    <option value="Picada de 50" data-precio="50000">Picada de 50 - $50,000</option>
+                    <option value="Perro Ranchero" data-precio="18000">Perro Ranchero - $18,000</option>
+                    <option value="Perro Picada" data-precio="20000">Perro Picada - $20,000</option>
+                    <option value="Hamburguesa Sencilla" data-precio="18000">Hamburguesa Sencilla - $18,000</option>
+                    <option value="Hamburguesa Doble" data-precio="22000">Hamburguesa Doble - $22,000</option>
+                    <option value="Hamburguesa Ranchera" data-precio="18000">Hamburguesa Ranchera - $18,000</option>
+                    <option value="Salchipapa Ranchera" data-precio="20000">Salchipapa Ranchera - $20,000</option>
+                    <option value="Chuzo de Pollo" data-precio="20000">Chuzo de Pollo - $20,000</option>
                     <option value="Carne a la Plancha" data-precio="20000">Carne a la Plancha - $20,000</option>
-                    <option value="Coca cola 1.5L" data-precio="6000">Coca cola 1.5L - $8,000</option>
-                    <option value="Hit Tropical" data-precio="4000">Hit Tropical - $5,000</option>
-                    <option value="Hit de mango" data-precio="4000">Hit de mango - $5,000</option>
-                    <option value="Hit de mora" data-precio="4000">Hit de mora - $5,000</option>
-                    <option value="Hit de piña naranja" data-precio="4000">Hit de piña naranja - $5,000</option>
-                    <option value="Colombiana Personal" data-precio="3000">Colombiana Personal - $5,000</option>
-                    <option value="Naranjada Postobón" data-precio="3000">Naranjada Postobón - $5,000</option>
-                    <option value="Uva Postobón" data-precio="3000">Uva Postobón - $5,000</option>
-                    <option value="Manzana Postobón" data-precio="3000">Manzana Postobón - $5,000</option>
-                    <option value="Pepsi Personal" data-precio="3000">Pepsi Personal - $5,000</option>
-                    <option value="Agua Brisa Personal" data-precio="2500">Agua Brisa Personal - $2,000</option>
-                    <option value="Cola Roman Personal" data-precio="2500">Cola Roman Personal - $5,000</option>
-                    <option value="Coca cola Personal" data-precio="3000">Coca cola Personal - $5,000</option>
+                    <option value="Coca cola 1.5L" data-precio="8000">Coca cola 1.5L - $8,000</option>
+                    <option value="Hit Tropical" data-precio="5000">Hit Tropical - $5,000</option>
+                    <option value="Hit de mango" data-precio="5000">Hit de mango - $5,000</option>
+                    <option value="Hit de mora" data-precio="5000">Hit de mora - $5,000</option>
+                    <option value="Hit de piña naranja" data-precio="5000">Hit de piña naranja - $5,000</option>
+                    <option value="Colombiana Personal" data-precio="5000">Colombiana Personal - $5,000</option>
+                    <option value="Naranjada Postobón" data-precio="5000">Naranjada Postobón - $5,000</option>
+                    <option value="Uva Postobón" data-precio="5000">Uva Postobón - $5,000</option>
+                    <option value="Manzana Postobón" data-precio="5000">Manzana Postobón - $5,000</option>
+                    <option value="Pepsi Personal" data-precio="5000">Pepsi Personal - $5,000</option>
+                    <option value="Agua Brisa Personal" data-precio="2000">Agua Brisa Personal - $2,000</option>
+                    <option value="Cola Roman Personal" data-precio="5000">Cola Roman Personal - $5,000</option>
+                    <option value="Coca cola Personal" data-precio="5000">Coca cola Personal - $5,000</option>
                     <option value="Pilsen en lata" data-precio="5000">Pilsen en lata - $5,000</option>
                     <option value="Aguila Negra en lata" data-precio="5000">Aguila Negra en lata - $5,000</option>
                 </select>
                 <div class="mt-2">
+                    <label for="cantidad" class="form-label">Cantidad:</label>
+                    <input type="number" id="cantidad" class="form-control" value="1" min="1">
+                </div>
+                <div class="mt-2">
                     <button class="btn btn-success btn-sm" onclick="agregarProducto()">Agregar Producto</button>
+                </div>
+                <div id="salsasContainer" class="mt-2" style="display: none;">
+                    <label class="form-label">Seleccionar Salsas:</label>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="Tomate" id="salsaTomate">
+                        <label class="form-check-label" for="salsaTomate">Salsa de Tomate</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="Rosada" id="salsaRosada">
+                        <label class="form-check-label" for="salsaRosada">Salsa Rosada</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="Maiz" id="salsaMaiz">
+                        <label class="form-check-label" for="salsaMaiz">Salsa de Maíz</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="Piña" id="salsaPina">
+                        <label class="form-check-label" for="salsaPina">Salsa de Piña</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="Mostaza" id="salsaMostaza">
+                        <label class="form-check-label" for="salsaMostaza">Salsa de Mostaza</label>
+                    </div>
+                </div>
+                <div id="detallesContainer" class="mt-2" style="display: none;">
+                    <label for="detallesProducto" class="form-label">Detalles Especiales:</label>
+                    <input type="text" class="form-control" id="detallesProducto" placeholder="Ej: Sin lechuga, no tan tostada, etc.">
                 </div>
                 <div id="productosSeleccionados" class="mt-2 p-2 border rounded"></div>
             </div>
