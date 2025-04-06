@@ -51,7 +51,7 @@
     
     <div class="container mt-4 pt-5">
         <div class="text-center mb-3">
-            <img src="./imagen/logo.png" alt="Logo" style="width: 100px; height: 100px; border-radius: 25px; margin-top: -50px;">
+            <img src="./imagen/logo.png" alt="Logo" style="width: 100px; height: 100px; border-radius: 20px; margin-top: 20px; border: 3px solid #FFD700; box-shadow: 0 0 10px #FFD700, 0 0 20px rgba(255, 215, 0, 0.5), 0 0 30px rgba(255, 215, 0, 0.3);">
         </div>
         <button class="btn btn-danger btn-sm mb-3" onclick="realizarCierreVentas()">Cierre de Ventas</button>
         <h2 class="text-center mb-4">Tomar Pedido</h2>
@@ -66,7 +66,7 @@
                     <option value="Mesa 4">Mesa 4</option>
                     <option value="Mesa 5">Mesa 5</option>
                     <option value="DOMICILIO">DOMICILIO</option>
-                    
+                    <option value="RECOGER">Recoger en el lugar</option>
                 </select>
             </div>
             
@@ -133,7 +133,10 @@
                     <label for="detallesProducto" class="form-label">Detalles Especiales:</label>
                     <input type="text" class="form-control" id="detallesProducto" placeholder="Ej: Sin lechuga, no tan tostada, etc.">
                 </div>
-                <div id="productosSeleccionados" class="mt-2 p-2 border rounded"></div>
+                <div class="mb-3">
+                    <label for="productosSeleccionados" class="form-label">Productos Seleccionados</label>
+                    <div id="productosSeleccionados" class="p-3" style="background-color: #f0f8ff; border: 1px solid #b0c4de; border-radius: 8px; min-height: 50px;"></div>
+                </div>
             </div>
         </div>
         

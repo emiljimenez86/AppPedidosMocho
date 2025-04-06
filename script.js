@@ -169,6 +169,12 @@ function agregarProducto() {
         document.getElementById('salsasContainer').style.display = 'none';
         document.getElementById('detallesProducto').value = '';
         
+        // Limpiar las salsas seleccionadas
+        const checkboxes = document.querySelectorAll('#salsasContainer input[type="checkbox"]');
+        checkboxes.forEach(checkbox => {
+            checkbox.checked = false;
+        });
+        
         console.log('Producto agregado exitosamente');
         console.log('Productos seleccionados actuales:', productosSeleccionados);
         
@@ -255,7 +261,6 @@ function cargarPedidos() {
     listaPedidos.innerHTML = "";
     
     const pedidos = obtenerPedidos();
-    // Ordenar pedidos por fecha (más recientes primero)
     pedidos.sort((a, b) => new Date(b.fecha) - new Date(a.fecha));
     
     pedidos.forEach(pedido => {
@@ -264,17 +269,28 @@ function cargarPedidos() {
         li.style.backgroundColor = '#f8f9fa';
         li.style.borderRadius = '8px';
         li.style.marginBottom = '10px';
-        li.style.boxShadow = '0 2px 4px rgba(0,0,0,0.1)';
+        li.style.boxShadow = 'none';
+        li.style.border = '2px solid #FFD700';
+        li.style.transition = 'transform 0.3s ease';
         
-        const productosHTML = pedido.productos.map(producto => 
-            `<span class="producto-seleccionado" style="background-color: #e9ecef; padding: 4px 8px; border-radius: 4px; margin-right: 5px;">
-                ${producto.nombre} x${producto.cantidad} - $${(producto.precio * producto.cantidad).toLocaleString()}
+        li.onmouseover = function() {
+            this.style.transform = 'translateY(-2px)';
+        };
+        
+        li.onmouseout = function() {
+            this.style.transform = 'translateY(0)';
+        };
+        
+        const productosHTML = pedido.productos.map(producto => {
+            const subtotal = producto.precio * producto.cantidad;
+            return `<span class="producto-seleccionado" style="background-color: #e9ecef; padding: 4px 8px; border-radius: 4px; margin-right: 5px; border: 1px solid #FFD700;">
+                ${producto.nombre} x${producto.cantidad} - $${subtotal.toLocaleString()}
                 ${producto.salsas && producto.salsas.length > 0 ? 
                     `<br><small>Salsas: ${producto.salsas.join(', ')}</small>` : 
                     ''}
                 ${producto.detalles ? `<br><small>Detalles: ${producto.detalles}</small>` : ''}
-            </span>`
-        ).join('');
+            </span>`;
+        }).join('');
         
         li.innerHTML = `
             <div class="row align-items-center">
@@ -314,15 +330,27 @@ function modificarPedido(id) {
     
     if (pedidoIndex !== -1) {
         const pedido = pedidos[pedidoIndex];
-        const nuevosProductos = prompt("Ingrese los productos separados por coma:", pedido.productos.map(p => p.nombre).join(", "));
-        if (nuevosProductos) {
-            pedidos[pedidoIndex].productos = nuevosProductos.split(",").map(p => {
-                const nombre = p.trim();
-                const precio = precios[nombre] || 0;
-                return { nombre, precio };
-            });
-            guardarPedidos(pedidos);
-            cargarPedidos();
+        
+        // Mostrar un modal o formulario con los datos actuales
+        const nuevoProducto = prompt("Ingrese el nuevo producto:", pedido.productos[0].nombre);
+        if (nuevoProducto) {
+            const nuevaCantidad = prompt("Ingrese la nueva cantidad:", pedido.productos[0].cantidad);
+            if (nuevaCantidad) {
+                const precio = precios[nuevoProducto] || pedido.productos[0].precio;
+                pedidos[pedidoIndex].productos = [{
+                    nombre: nuevoProducto,
+                    precio: precio,
+                    cantidad: parseInt(nuevaCantidad),
+                    salsas: pedido.productos[0].salsas || [],
+                    detalles: pedido.productos[0].detalles || ''
+                }];
+                
+                // Recalcular el total
+                pedidos[pedidoIndex].total = pedidos[pedidoIndex].productos.reduce((sum, p) => sum + (p.precio * p.cantidad), 0);
+                
+                guardarPedidos(pedidos);
+                cargarPedidos();
+            }
         }
     }
 }
@@ -364,12 +392,13 @@ function imprimirPedido(pedido) {
     const productosActualizados = pedido.productos.map(producto => ({
         nombre: producto.nombre,
         precio: precios[producto.nombre] || producto.precio,
+        cantidad: producto.cantidad || 1,
         salsas: producto.salsas || [],
         detalles: producto.detalles || ''
     }));
     
-    // Recalcular el total con los precios actualizados
-    const totalActualizado = productosActualizados.reduce((sum, p) => sum + p.precio, 0);
+    // Recalcular el total con los precios actualizados y las cantidades
+    const totalActualizado = productosActualizados.reduce((sum, p) => sum + (p.precio * p.cantidad), 0);
     
     const contenido = `
         <html>
@@ -458,7 +487,7 @@ function imprimirPedido(pedido) {
                     <ul>
                         ${productosActualizados.map(producto => `
                             <li>
-                                ${producto.nombre} - $${producto.precio.toLocaleString()}
+                                ${producto.nombre} x${producto.cantidad} - $${(producto.precio * producto.cantidad).toLocaleString()}
                                 ${producto.salsas.length > 0 ? 
                                     `<div class="salsas">Salsas: ${producto.salsas.join(', ')}</div>` : 
                                     ''}
