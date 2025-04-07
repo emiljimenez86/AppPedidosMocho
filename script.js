@@ -294,13 +294,16 @@ function cargarPedidos() {
         
         const productosHTML = pedido.productos.map(producto => {
             const subtotal = producto.precio * producto.cantidad;
-            return `<span class="producto-seleccionado" style="background-color: #e9ecef; padding: 4px 8px; border-radius: 4px; margin-right: 5px; border: 1px solid #FFD700;">
-                ${producto.nombre} - $${subtotal.toLocaleString()}
+            return `<div class="producto-seleccionado" style="background-color: #e9ecef; padding: 8px; border-radius: 4px; margin-bottom: 5px; border: 1px solid #FFD700;">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                    <strong>${producto.nombre}</strong>
+                    <span>$${producto.precio.toLocaleString()} x ${producto.cantidad} = $${subtotal.toLocaleString()}</span>
+                </div>
                 ${producto.salsas && producto.salsas.length > 0 ? 
-                    `<br><small>Salsas: ${producto.salsas.join(', ')}</small>` : 
+                    `<div style="margin-top: 5px;"><strong>Salsas:</strong> ${producto.salsas.join(', ')}</div>` : 
                     ''}
-                ${producto.detalles ? `<br><small>Detalles: ${producto.detalles}</small>` : ''}
-            </span>`;
+                ${producto.detalles ? `<div style="margin-top: 5px;"><strong>Detalles:</strong> ${producto.detalles}</div>` : ''}
+            </div>`;
         }).join('');
         
         li.innerHTML = `
@@ -643,6 +646,12 @@ function generarResumenCierre() {
                     border-radius: 5px;
                     text-align: center;
                 }
+                .pedido-container {
+                    margin-bottom: 20px;
+                    border: 1px solid #ddd;
+                    padding: 10px;
+                    border-radius: 5px;
+                }
                 .tabla-productos {
                     width: 100%;
                     border-collapse: collapse;
@@ -652,7 +661,6 @@ function generarResumenCierre() {
                     border: 1px solid #ddd;
                     padding: 4px;
                     text-align: left;
-                    font-size: 0.9em;
                 }
                 .tabla-productos th {
                     background-color: #f5f5f5;
@@ -705,7 +713,7 @@ function generarResumenCierre() {
                 ${pedidos.map(pedido => {
                     const totalPedido = pedido.productos.reduce((sum, p) => sum + (p.precio * p.cantidad), 0);
                     return `
-                        <div style="margin-bottom: 20px; border: 1px solid #ddd; padding: 10px; border-radius: 5px;">
+                        <div class="pedido-container">
                             <p><strong>Mesa:</strong> ${pedido.mesa} | <strong>Hora:</strong> ${pedido.hora} | <strong>Estado:</strong> ${pedido.estado}</p>
                             <table class="tabla-productos">
                                 <tr>
