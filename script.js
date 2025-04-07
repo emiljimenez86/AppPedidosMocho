@@ -87,6 +87,12 @@ function mostrarSalsas() {
 
 function obtenerSalsasSeleccionadas() {
     const salsasContainer = document.getElementById("salsasContainer");
+    const todasSalsas = document.getElementById("todasSalsas");
+    
+    if (todasSalsas.checked) {
+        return ["Todas las salsas"];
+    }
+    
     const checkboxes = salsasContainer.querySelectorAll('input[type="checkbox"]:checked');
     return Array.from(checkboxes).map(checkbox => checkbox.value);
 }
@@ -264,6 +270,11 @@ function cargarPedidos() {
     pedidos.sort((a, b) => new Date(b.fecha) - new Date(a.fecha));
     
     pedidos.forEach(pedido => {
+        // Calcular el total del pedido considerando las cantidades
+        const totalPedido = pedido.productos.reduce((sum, producto) => {
+            return sum + (producto.precio * producto.cantidad);
+        }, 0);
+        
         const li = document.createElement("li");
         li.classList.add("list-group-item");
         li.style.backgroundColor = '#f8f9fa';
@@ -284,7 +295,7 @@ function cargarPedidos() {
         const productosHTML = pedido.productos.map(producto => {
             const subtotal = producto.precio * producto.cantidad;
             return `<span class="producto-seleccionado" style="background-color: #e9ecef; padding: 4px 8px; border-radius: 4px; margin-right: 5px; border: 1px solid #FFD700;">
-                ${producto.nombre} x${producto.cantidad} - $${subtotal.toLocaleString()}
+                ${producto.nombre} - $${subtotal.toLocaleString()}
                 ${producto.salsas && producto.salsas.length > 0 ? 
                     `<br><small>Salsas: ${producto.salsas.join(', ')}</small>` : 
                     ''}
@@ -299,7 +310,7 @@ function cargarPedidos() {
                     <div class="mt-2">${productosHTML}</div>
                     <div class="mt-2">
                         <span class="badge ${pedido.estado === 'Entregado' ? 'bg-success' : 'bg-warning'}" style="font-size: 0.8em;">${pedido.estado}</span>
-                        <span class="badge bg-info ms-2">Total: $${pedido.total.toLocaleString()}</span>
+                        <span class="badge bg-info ms-2">Total: $${totalPedido.toLocaleString()}</span>
                     </div>
                 </div>
                 <div class="col-md-8">
@@ -447,10 +458,22 @@ function imprimirPedido(pedido) {
                     padding: 2px 0; 
                     border-bottom: 1px dotted #ccc;
                 }
+                .nombre-producto {
+                    font-size: 14px;
+                    font-weight: bold;
+                    color: #000;
+                }
                 .salsas {
-                    font-size: 10px;
-                    color: #666;
+                    font-size: 14px;
+                    color: #000;
                     margin-left: 10px;
+                    font-weight: bold;
+                }
+                .detalles {
+                    font-size: 14px;
+                    color: #000;
+                    margin-left: 10px;
+                    font-weight: bold;
                 }
                 .total {
                     text-align: right;
@@ -466,6 +489,19 @@ function imprimirPedido(pedido) {
                     padding: 8px 15px;
                     font-size: 14px;
                     cursor: pointer;
+                }
+                .tabla-productos {
+                    width: 100%;
+                    border-collapse: collapse;
+                }
+                .tabla-productos th {
+                    text-align: left;
+                    padding: 2px;
+                    border-bottom: 1px solid #000;
+                }
+                .tabla-productos td {
+                    padding: 2px;
+                    border-bottom: 1px dotted #ccc;
                 }
                 @media print {
                     .botones {
@@ -483,18 +519,26 @@ function imprimirPedido(pedido) {
             <div class="pedido">
                 <p><strong>Mesa:</strong> ${pedido.mesa}</p>
                 <div class="productos">
-                    <p><strong>Productos:</strong></p>
-                    <ul>
+                    <table class="tabla-productos">
+                        <tr>
+                            <th>Producto</th>
+                            <th>Cant.</th>
+                            <th>Total</th>
+                        </tr>
                         ${productosActualizados.map(producto => `
-                            <li>
-                                ${producto.nombre} x${producto.cantidad} - $${(producto.precio * producto.cantidad).toLocaleString()}
-                                ${producto.salsas.length > 0 ? 
-                                    `<div class="salsas">Salsas: ${producto.salsas.join(', ')}</div>` : 
-                                    ''}
-                                ${producto.detalles ? `<div class="detalles">Detalles: ${producto.detalles}</div>` : ''}
-                            </li>
+                            <tr>
+                                <td>
+                                    <span class="nombre-producto">${producto.nombre}</span>
+                                    ${producto.salsas.length > 0 ? 
+                                        `<div class="salsas">Salsas: ${producto.salsas.join(', ')}</div>` : 
+                                        ''}
+                                    ${producto.detalles ? `<div class="detalles">Detalles: ${producto.detalles}</div>` : ''}
+                                </td>
+                                <td>${producto.cantidad}</td>
+                                <td>$${(producto.precio * producto.cantidad).toLocaleString()}</td>
+                            </tr>
                         `).join('')}
-                    </ul>
+                    </table>
                 </div>
                 <div class="total">
                     Total: $${totalActualizado.toLocaleString()}
@@ -502,7 +546,7 @@ function imprimirPedido(pedido) {
                 <p><strong>Estado:</strong> ${pedido.estado}</p>
             </div>
             <div class="footer">
-                <p style="margin: 0;">¡Gracias por su pedido!</p>
+                <p style="margin: 0; font-weight: bold;">Donde el Mocho Comidas rápidas</p>
             </div>
             <div class="botones">
                 <button onclick="window.print()">Imprimir</button>
@@ -520,6 +564,13 @@ function imprimirPedido(pedido) {
 // FUNCIONES DE CIERRE DE VENTAS
 // =============================================
 
+function seleccionarTodasSalsas(checkbox) {
+    const salsas = document.querySelectorAll('#salsasContainer input[type="checkbox"]:not(#todasSalsas)');
+    salsas.forEach(salsa => {
+        salsa.checked = false;
+    });
+}
+
 function generarResumenCierre() {
     const pedidos = obtenerPedidos();
     const fecha = new Date().toLocaleString('es-ES');
@@ -527,8 +578,13 @@ function generarResumenCierre() {
     const pedidosPendientes = pedidos.filter(p => p.estado === 'Pendiente').length;
     const pedidosEntregados = pedidos.filter(p => p.estado === 'Entregado').length;
     
-    // Calcular el total de ventas
-    const totalVentas = pedidos.reduce((sum, pedido) => sum + pedido.total, 0);
+    // Calcular el total de ventas considerando las cantidades
+    const totalVentas = pedidos.reduce((sum, pedido) => {
+        const totalPedido = pedido.productos.reduce((pedidoSum, producto) => {
+            return pedidoSum + (producto.precio * producto.cantidad);
+        }, 0);
+        return sum + totalPedido;
+    }, 0);
     
     const pedidosPorMesa = {};
     pedidos.forEach(pedido => {
@@ -587,6 +643,20 @@ function generarResumenCierre() {
                     border-radius: 5px;
                     text-align: center;
                 }
+                .tabla-productos {
+                    width: 100%;
+                    border-collapse: collapse;
+                    margin: 5px 0;
+                }
+                .tabla-productos th, .tabla-productos td {
+                    border: 1px solid #ddd;
+                    padding: 4px;
+                    text-align: left;
+                    font-size: 0.9em;
+                }
+                .tabla-productos th {
+                    background-color: #f5f5f5;
+                }
                 @media print {
                     body {
                         padding: 0;
@@ -632,24 +702,35 @@ function generarResumenCierre() {
                 </table>
                 
                 <h3>Detalle de Pedidos</h3>
-                <table class="tabla">
-                    <tr>
-                        <th>Mesa</th>
-                        <th>Hora</th>
-                        <th>Productos</th>
-                        <th>Total</th>
-                        <th>Estado</th>
-                    </tr>
-                    ${pedidos.map(pedido => `
-                        <tr>
-                            <td>${pedido.mesa}</td>
-                            <td>${pedido.hora}</td>
-                            <td>${pedido.productos.map(p => `${p.nombre} - $${p.precio.toLocaleString()}`).join(', ')}</td>
-                            <td>$${pedido.total.toLocaleString()}</td>
-                            <td>${pedido.estado}</td>
-                        </tr>
-                    `).join('')}
-                </table>
+                ${pedidos.map(pedido => {
+                    const totalPedido = pedido.productos.reduce((sum, p) => sum + (p.precio * p.cantidad), 0);
+                    return `
+                        <div style="margin-bottom: 20px; border: 1px solid #ddd; padding: 10px; border-radius: 5px;">
+                            <p><strong>Mesa:</strong> ${pedido.mesa} | <strong>Hora:</strong> ${pedido.hora} | <strong>Estado:</strong> ${pedido.estado}</p>
+                            <table class="tabla-productos">
+                                <tr>
+                                    <th>Producto</th>
+                                    <th>Cant.</th>
+                                    <th>Total</th>
+                                </tr>
+                                ${pedido.productos.map(p => `
+                                    <tr>
+                                        <td>
+                                            ${p.nombre}
+                                            ${p.salsas && p.salsas.length > 0 ? 
+                                                `<br><small>Salsas: ${p.salsas.join(', ')}</small>` : 
+                                                ''}
+                                            ${p.detalles ? `<br><small>Detalles: ${p.detalles}</small>` : ''}
+                                        </td>
+                                        <td>${p.cantidad}</td>
+                                        <td>$${(p.precio * p.cantidad).toLocaleString()}</td>
+                                    </tr>
+                                `).join('')}
+                            </table>
+                            <p style="text-align: right; margin-top: 5px;"><strong>Total Pedido:</strong> $${totalPedido.toLocaleString()}</p>
+                        </div>
+                    `;
+                }).join('')}
             </div>
             <div class="footer">
                 <p>Este documento sirve como constancia del cierre de operaciones</p>
