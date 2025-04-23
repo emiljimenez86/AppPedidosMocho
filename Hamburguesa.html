@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="./styles.css">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+        <title>The Fest Burger - Solomitos</title>
+    </head>
+    <body class="bg-dark">
+        <header class="bg-dark text-white text-center py-4">
+            <div class="container">
+                <img src="./image/solomitosLogo.png" alt="Logo el gran dragon" class="img-fluid mb-3 logo-cuadrado" style="max-width: 120px;">
+                <h1 class="h4">The Fest Burger</h1>
+                <a href="index.html" class="btn btn-light mt-3 bg-danger" style="color: white;">Volver al inicio</a>
+            </div>
+        </header>
+        <main class="container my-4 bg-dark">
+            <div class="container mt-4">
+                <div class="row">
+                    <div class="col-md-6 mb-4">
+                        <div class="card h-100 bg-dark">
+                            <img src="./image/hamburguesa.jpg" alt="The Fest Burger" class="card-img-top menu-img">
+                            <div class="card-body">
+                                <h5 class="card-title text-center">The Fest Burger</h5>
+                                <p class="text-white text-center">¡Participando en el Burger Master de Tulio Recomienda!</p>
+                                <button onclick="mostrarInstrucciones()" class="btn btn-warning mb-3">Votar por esta hamburguesa</button>
+                                <div id="instrucciones" style="display:none; margin-top: 10px; color: white;">
+                                    <ol>
+                                        <li>Descarga la app <strong>Tulio Recomienda</strong>:</li>
+                                        <ul>
+                                            <li><a href="https://play.google.com/store/apps/details?id=com.tuliorecomienda.app" target="_blank" class="text-warning">Android</a></li>
+                                            <li><a href="https://apps.apple.com/co/app/tulio-recomienda/id1459206812" target="_blank" class="text-warning">iPhone</a></li>
+                                        </ul>
+                                        <li>Abre la app y selecciona la ciudad: <strong>Caucasia</strong>.</li>
+                                        <li>Busca el restaurante: <strong>Solomitos</strong>.</li>
+                                        <li>Selecciona la hamburguesa <strong>The Fest Burger</strong>.</li>
+                                        <li>Califícala con las estrellas y ¡listo!</li>
+                                    </ol>
+                                </div>
+                                <a href="https://wa.me/+573136882500?text=Hola,%20quiero%20un%20The%20fest%20burger." class="btn btn-whatsapp btn-success" target="_blank">Pedir por WhatsApp domicilio</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <footer class="bg-dark text-white text-center py-3 mt-4">
+            <p>&copy; 2025 Solomitos Caucasia. Todos los derechos reservados.
+            <br>Emil Jiménez - Desarrollador web
+            </p>
+        </footer>
+        <script>
+            function mostrarInstrucciones() {
+                document.getElementById("instrucciones").style.display = "block";
+            }
+        </script>
+    </body>
+</html>
