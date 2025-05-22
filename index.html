@@ -1,141 +1,160 @@
 <!DOCTYPE html>
 <html lang="es">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="styles.css">
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-        <title>SOLOMITOS</title>
-    </head>
-    <body>
-        <header class="header-custom text-center py-4">
-            <div class="container">
-                <img src="./image/solomitosLogo.png" alt="Logo" class="img-fluid mb-2" style="max-width: 280px;">
-                <h1 class="h4">MENÚ BURGER MASTER</h1>
-                <h1 class="Horario">Fecha: del 28 de abril al 4 de mayo</h1>
-                <h1 class="Horario">Horario:  de 12pm a 10pm</h1>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="PedidosApp"> 
+   
+    <title>PedidosApp</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" type="image/png" sizes="192x192" href="./imagen/logo.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="./imagen/logo.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="./imagen/logo.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="./imagen/logo.png">
+    <link rel="manifest" href="manifest.json">
+    <style>
+        body {
+            background-color: #0a192f !important;
+            color: #ffffff !important;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        .container {
+            background-color: #0a192f !important;
+            flex: 1;
+        }
+        #productosSeleccionados {
+            color: #000000 !important;
+        }
+        footer {
+            margin-top: auto;
+            background-color: #0a192f;
+        }
+    </style>
+</head>
+<body>
+    <div class="fixed-top d-flex justify-content-end p-3">
+        <button id="installBtn" class="btn btn-success me-2" style="display: none;">Instalar App</button>
+    </div>
+
+    <div id="ios-instructions" style="display: none; text-align: center; background: #ffeb3b; padding: 10px; border-radius: 5px;">
+      📱 Para instalar esta app en iPhone:<br>
+      1️⃣ Toca <strong>Compartir</strong> (📤).<br>
+      2️⃣ Selecciona <strong>"Agregar a inicio"</strong>.<br>
+      3️⃣ Listo <strong>"Así de fácil te llevas nuestro Menú"</strong>.
+    </div>
+    
+    <div class="container mt-4 pt-5">
+        
+        <button class="btn btn-danger btn-sm mb-3" onclick="realizarCierreVentas()">Cierre de Ventas</button>
+        <h2 class="text-center mb-4" style="color: #FFD700;">Tomar Pedido</h2>
+        
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label for="mesa" class="form-label">Seleccionar Mesa:</label>
+                <select id="mesa" class="form-select">
+                    <option value="Mesa 1">Mesa 1</option>
+                    <option value="Mesa 2">Mesa 2</option>
+                    <option value="Mesa 3">Mesa 3</option>
+                    <option value="Mesa 4">Mesa 4</option>
+                    <option value="Mesa 5">Mesa 5</option>
+                    <option value="DOMICILIO">DOMICILIO</option>
+                    <option value="RECOGER">Recoger en el lugar</option>
+                </select>
             </div>
-        </header>
-
-        <main class="container my-4">
-            <div class="row g-3 text-center justify-content-center">
-                <div class="col-12 col-md-8">
-                    <div class="burger-card">
-                        <img src="./image/hamburguesa.jpg" alt="The Fest Burger" class="burger-img">
-                        <div class="p-4">
-                            <h3 class="text-white">Solomitos The Fest Burger $19.000</h3>
-                            <p class="text-white mb-4"></p>
-                            
-                            <div class="d-grid gap-3">
-                                <button onclick="mostrarDetalles()" class="btn btn-detalles py-3">
-                                    Ver Detalles
-                                </button>
-
-                                <div id="detalles" class="text-white" style="display: none;">
-                                    <p class="mb-0">The Fest Burger: Delicioso pan brioche recién horneado con mantequilla clarificada, acompañado de nuestras salsas de la casa de pimentón ahumado y chimichurri, 130g de carne de res premium, bañada con queso mozzarella artesanal y esparcido con nuestra salsa de tocineta ahumada con pimentones, cebolla crispí la cual le brinda un espectacular toque crocante, finalmente es bañada de nuestra miel de tocineta crunch de tocino ahumado.</p>
-                                </div>
-
-                                <div class="row g-2">
-                                    <div class="col-6">
-                                        <a href="adiciones.html" class="btn btn-extra w-100 py-3">
-                                            <strong>Adiciones</strong>
-                                        </a>
-                                    </div>
-                                    <div class="col-6">
-                                        <a href="bebidas.html" class="btn btn-extra w-100 py-3">
-                                            <strong>Bebidas</strong>
-                                        </a>
-                                    </div>
-                                </div>
-
-                                <button onclick="mostrarInstrucciones()" class="btn btn-warning py-3 fw-bold">
-                                    ¿Cómo votar por esta Hamburguesa?
-                                </button>
-
-                                <div id="instrucciones" class="text-white">
-                                    <div class="instrucciones-lista">
-                                        <ol>
-                                            <li>Descarga la app <strong>Tulio Recomienda</strong>:</li>
-                                            <ul>
-                                                <li><a href="https://play.google.com/store/apps/details?id=com.tuliorecomienda.app&hl=es_CO" target="_blank" class="text-white fw-bold">Android</a></li>
-                                                <li><a href="https://apps.apple.com/co/app/tulio-recomienda/id1459206812?l=es" target="_blank" class="text-white fw-bold">iPhone</a></li>
-                                            </ul>
-                                            <li>Abre la app y selecciona la ciudad: <strong>Caucasia</strong>.</li>
-                                            <li>Busca el restaurante: <strong>Solomitos</strong>.</li>
-                                            <li>Selecciona la hamburguesa <strong>The Fest Burger</strong>.</li>
-                                            <li>Califícala con las estrellas y ¡listo!</li>
-                                        </ol>
-                                    </div>
-                                </div>
-
-                                <p class="text-white text-center mb-2">
-                                    ¡Participa por una cena romántica para dos personas, si envias la captura de tu calificación y nos dejas un comentario en la App del concurso!
-                                </p>
-                                <a href="https://wa.me/+573136882500?text=Hola,%20voy%20a%20enviar%20mi%20captura%20de%20la%20calificación%20y%20el%20comentario%20en%20la%20App%20del%20concurso." class="btn btn-whatsapp py-3" target="_blank">
-                                    Enviar calificación
-                                </a>
-                            </div>
-                        </div>
+            
+            <div class="col-md-6 mb-3">
+                <label for="producto" class="form-label">Seleccionar Producto:</label>
+                <select id="producto" class="form-select" onchange="mostrarSalsas()">
+                    <option value="">Seleccione un producto...</option>
+                    <option value="Picada de 25" data-precio="25000">Picada de 25 - $25,000</option>
+                    <option value="Picada de 30" data-precio="30000">Picada de 30 - $30,000</option>
+                    <option value="Picada de 40" data-precio="40000">Picada de 40 - $40,000</option>
+                    <option value="Picada de 50" data-precio="50000">Picada de 50 - $50,000</option>
+                    <option value="Perro Ranchero" data-precio="18000">Perro Ranchero - $18,000</option>
+                    <option value="Perro Picada" data-precio="20000">Perro Picada - $20,000</option>
+                    <option value="Hamburguesa Sencilla" data-precio="18000">Hamburguesa Sencilla - $18,000</option>
+                    <option value="Hamburguesa Doble" data-precio="22000">Hamburguesa Doble - $22,000</option>
+                    <option value="Hamburguesa Ranchera" data-precio="18000">Hamburguesa Ranchera - $18,000</option>
+                    <option value="Salchipapa Ranchera" data-precio="20000">Salchipapa Ranchera - $20,000</option>
+                    <option value="Chuzo de Pollo" data-precio="20000">Chuzo de Pollo - $20,000</option>
+                    <option value="Carne a la Plancha" data-precio="20000">Carne a la Plancha - $20,000</option>
+                    <option value="Coca cola 1.5L" data-precio="8000">Coca cola 1.5L - $8,000</option>
+                    <option value="Hit Tropical" data-precio="5000">Hit Tropical - $5,000</option>
+                    <option value="Hit de mango" data-precio="5000">Hit de mango - $5,000</option>
+                    <option value="Hit de mora" data-precio="5000">Hit de mora - $5,000</option>
+                    <option value="Hit de piña naranja" data-precio="5000">Hit de piña naranja - $5,000</option>
+                    <option value="Colombiana Personal" data-precio="5000">Colombiana Personal - $5,000</option>
+                    <option value="Naranjada Postobón" data-precio="5000">Naranjada Postobón - $5,000</option>
+                    <option value="Uva Postobón" data-precio="5000">Uva Postobón - $5,000</option>
+                    <option value="Manzana Postobón" data-precio="5000">Manzana Postobón - $5,000</option>
+                    <option value="Pepsi Personal" data-precio="5000">Pepsi Personal - $5,000</option>
+                    <option value="Agua Brisa Personal" data-precio="2000">Agua Brisa Personal - $2,000</option>
+                    <option value="Cola Roman Personal" data-precio="5000">Cola Roman Personal - $5,000</option>
+                    <option value="Coca cola Personal" data-precio="5000">Coca cola Personal - $5,000</option>
+                    <option value="Pilsen en lata" data-precio="5000">Pilsen en lata - $5,000</option>
+                    <option value="Aguila Negra en lata" data-precio="5000">Aguila Negra en lata - $5,000</option>
+                </select>
+                <div class="mt-2">
+                    <label for="cantidad" class="form-label">Cantidad:</label>
+                    <input type="number" id="cantidad" class="form-control" value="1" min="1">
+                </div>
+                <div id="salsasContainer" class="mt-2" style="display: none;">
+                    <label class="form-label">Seleccionar Salsas:</label>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="Todas" id="todasSalsas" onchange="seleccionarTodasSalsas(this)">
+                        <label class="form-check-label" for="todasSalsas">Todas las salsas</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="Tomate" id="salsaTomate">
+                        <label class="form-check-label" for="salsaTomate">Salsa de Tomate</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="Rosada" id="salsaRosada">
+                        <label class="form-check-label" for="salsaRosada">Salsa Rosada</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="Maiz" id="salsaMaiz">
+                        <label class="form-check-label" for="salsaMaiz">Salsa de Maíz</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="Piña" id="salsaPina">
+                        <label class="form-check-label" for="salsaPina">Salsa de Piña</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="Mostaza" id="salsaMostaza">
+                        <label class="form-check-label" for="salsaMostaza">Salsa de Mostaza</label>
                     </div>
                 </div>
-            </div>
-
-            <div class="text-center mt-4">
-                <h4 class="text-white">Dirección</h4>
-                <p><a href="https://maps.app.goo.gl/oCDh2KCpmdvW9kVA9" target="_blank" class="text-decoration-none text-warning">📍Cra 20 N 2-39 LT03 Urb el lago Caucasia - Antioquia</a></p>
-                
-                <h4 class="text-white">Contáctanos</h4>
-                <div class="d-flex justify-content-center gap-3 my-3">
-                    <a href="tel:+573136882500">
-                        <img src="./imagenes/llamadas.png" alt="Llamar" style="width: 50px;">
-                    </a>
-                    <a href="#" target="_blank">
-                        <img src="./imagenes/facebook2.png" alt="Facebook" style="width: 50px;">
-                    </a>
-                    <a href="https://wa.me/+573136882500?text=¡Hola!%20Quiero%20hacer%20un%20pedido." target="_blank">
-                        <img src="./imagenes/whatsaap (2).png" alt="WhatsApp" style="width: 50px;">
-                    </a>
-                    <a href="https://www.instagram.com/solomitos_caucasia?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank">
-                        <img src="./imagenes/instagram1.png" alt="Instagran" style="width: 50px;">
-                    </a>
+                <div id="detallesContainer" class="mt-2" style="display: none;">
+                    <label for="detallesProducto" class="form-label">Detalles Especiales:</label>
+                    <input type="text" class="form-control" id="detallesProducto" placeholder="Ej: Sin lechuga, no tan tostada, etc.">
+                </div>
+                <div class="mb-3">
+                    <label for="productosSeleccionados" class="form-label">Productos Seleccionados</label>
+                    <div id="productosSeleccionados" class="p-3" style="background-color: #f0f8ff; border: 1px solid #b0c4de; border-radius: 8px; min-height: 50px;"></div>
                 </div>
             </div>
-        </main>
-
-        <footer class="footer text-white text-center py-3">
-            <p>&copy; 2025 Solomitos Caucasia. Todos los derechos reservados.
-                <br>Emil Jiménez - Desarrollador Web 
-            </p>
-        </footer>
-
-        <script>
-            function mostrarInstrucciones() {
-                const instrucciones = document.getElementById("instrucciones");
-                const boton = document.querySelector('.btn-warning');
-                
-                instrucciones.classList.toggle('visible');
-                boton.textContent = instrucciones.classList.contains('visible') 
-                    ? "Cerrar instrucciones" 
-                    : "¿Cómo votar por esta Hamburguesa?";
-            }
-
-            function mostrarDetalles() {
-                const detalles = document.getElementById("detalles");
-                const boton = document.querySelector('.btn-detalles');
-                
-                detalles.style.display = detalles.style.display === 'none' ? 'block' : 'none';
-                boton.textContent = detalles.style.display === 'none' ? "Ver Detalles" : "Ocultar Detalles";
-            }
-
-            function mostrarAdiciones() {
-                // Aquí puedes agregar la lógica para mostrar las adiciones
-                alert("Próximamente: Lista de adiciones disponibles");
-            }
-
-            function mostrarBebidas() {
-                // Aquí puedes agregar la lógica para mostrar las bebidas
-                alert("Próximamente: Lista de bebidas disponibles");
-            }
-        </script>
-    </body>
+        </div>
+        
+        <div class="text-center mb-4">
+            <button class="btn btn-success btn-sm me-2" onclick="agregarProducto()">Agregar Producto</button>
+            <button class="btn btn-primary btn-lg" onclick="agregarPedido()">Guardar Pedido</button>
+        </div>
+        
+        <h3 class="mb-3">Pedidos Actuales</h3>
+        <ul id="listaPedidos" class="list-group"></ul>
+    </div>
+    
+    <footer class="text-center py-3 mt-4">
+        <p class="mb-0">&copy;Todos los derechos reservados a <br>Emil Jiménez Ortiz - Desarrollador Web</p>
+    </footer>
+    
+    <script src="script.js"></script>
+</body>
 </html>
